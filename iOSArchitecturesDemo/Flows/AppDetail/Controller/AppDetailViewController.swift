@@ -13,6 +13,7 @@ final class AppDetailViewController: UIViewController {
     let app: ITunesApp
     
     lazy var headerViewController = AppDetailHeaderViewController(app: app)
+    lazy var whatsNewViewController = AppDetailsWhatsNewsViewController(app: app)
     
     // MARK: - Construction
     
@@ -39,7 +40,7 @@ final class AppDetailViewController: UIViewController {
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationItem.largeTitleDisplayMode = .never
         addHeaderViewController()
-        addDescriptionViewController()
+        addWhatsNewViewController()
     }
     
     private func addHeaderViewController() {
@@ -56,7 +57,17 @@ final class AppDetailViewController: UIViewController {
         ])
     }
     
-    private func addDescriptionViewController() {
-        // ДЗ
+    private func addWhatsNewViewController() {
+        addChild(whatsNewViewController)
+        view.addSubview(whatsNewViewController.view)
+        whatsNewViewController.didMove(toParent: self)
+        
+        whatsNewViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            self.whatsNewViewController.view.topAnchor.constraint(equalTo: self.headerViewController.view.bottomAnchor, constant: 8.0),
+            self.whatsNewViewController.view.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.whatsNewViewController.view.rightAnchor.constraint(equalTo: self.view.rightAnchor)
+        ])
     }
 }

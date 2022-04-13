@@ -13,6 +13,7 @@ class AppDetailsWhatsNewsViewController: UIViewController {
     //MARK: - Private properties
     
     private let app: ITunesApp
+    private let dateFormatter = DateFormatter()
     
     private var appDetailsWhatsNewsView: AppDetailsWhatsNewsView {
         return self.view as! AppDetailsWhatsNewsView
@@ -44,6 +45,14 @@ class AppDetailsWhatsNewsViewController: UIViewController {
     // MARK: - Private functions
     
     private func fillData() {
-        //appDetailsWhatsNewsView.titleLabel.text = app.
+        appDetailsWhatsNewsView.versionLabel.text = "Версия \(app.version ?? "")"
+        appDetailsWhatsNewsView.whatsNewLabel.text = "- \(app.releaseNotes ?? "")"
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale
+        let date = dateFormatter.date(from: app.currentVersionReleaseDate ?? "")
+        let timesPass = date?.timeIntervalSinceNow
+        let daysPass = (timesPass ?? 0) / 86400
+        appDetailsWhatsNewsView.versionDataLabel.text = "\(-(Int(daysPass))) дней назад"
     }
 }

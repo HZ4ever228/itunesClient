@@ -79,19 +79,19 @@ class AppDetailsWhatsNewsView: UIView {
         
         NSLayoutConstraint.activate([
             self.titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12.0),
-            self.titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16.0),
+            self.titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16.0),
             self.titleLabel.rightAnchor.constraint(equalTo: self.versionHistoryButton.leftAnchor, constant: 16.0),
             self.versionHistoryButton.centerYAnchor.constraint(equalTo: self.titleLabel.centerYAnchor),
-            self.versionHistoryButton.rightAnchor.constraint(equalTo: rightAnchor, constant: 12.0),
+            self.versionHistoryButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16.0),
             self.versionLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 16.0),
             self.versionLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16.0),
             self.versionLabel.rightAnchor.constraint(equalTo: self.versionDataLabel.leftAnchor, constant: 16.0),
             self.versionDataLabel.centerYAnchor.constraint(equalTo: self.versionLabel.centerYAnchor),
-            self.versionDataLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: 12.0),
+            self.versionDataLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16.0),
             self.whatsNewLabel.topAnchor.constraint(equalTo: self.versionLabel.bottomAnchor, constant: 16.0),
             self.whatsNewLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16.0),
             self.whatsNewLabel.rightAnchor.constraint(equalTo: self.versionHistoryButton.leftAnchor, constant: 16.0),
-            self.whatsNewLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 16)
+            self.whatsNewLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }
