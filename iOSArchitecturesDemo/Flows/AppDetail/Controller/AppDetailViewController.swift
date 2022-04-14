@@ -14,6 +14,7 @@ final class AppDetailViewController: UIViewController {
     
     lazy var headerViewController = AppDetailHeaderViewController(app: app)
     lazy var whatsNewViewController = AppDetailsWhatsNewsViewController(app: app)
+    lazy var previewViewController = AppDetailPreviewViewController(app: app)
     
     // MARK: - Construction
     
@@ -41,6 +42,7 @@ final class AppDetailViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         addHeaderViewController()
         addWhatsNewViewController()
+        addPreviewViewController()
     }
     
     private func addHeaderViewController() {
@@ -68,6 +70,20 @@ final class AppDetailViewController: UIViewController {
             self.whatsNewViewController.view.topAnchor.constraint(equalTo: self.headerViewController.view.bottomAnchor, constant: 8.0),
             self.whatsNewViewController.view.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.whatsNewViewController.view.rightAnchor.constraint(equalTo: self.view.rightAnchor)
+        ])
+    }
+    
+    private func addPreviewViewController() {
+        addChild(previewViewController)
+        view.addSubview(previewViewController.view)
+        previewViewController.didMove(toParent: self)
+        
+        previewViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            self.previewViewController.view.topAnchor.constraint(equalTo: self.whatsNewViewController.view.bottomAnchor, constant: 8.0),
+            self.previewViewController.view.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.previewViewController.view.rightAnchor.constraint(equalTo: self.view.rightAnchor)
         ])
     }
 }
