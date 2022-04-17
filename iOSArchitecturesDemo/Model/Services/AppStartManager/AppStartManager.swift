@@ -18,7 +18,7 @@ final class AppStartManager {
     
     func start() {
         let rootVC = SearchModuleBuilder.build()
-        rootVC.navigationItem.title = "Search via iTunes"
+        rootVC.navigationItem.title = "Search Apps"
         
         let navVC = self.configuredNavigationController
         navVC.viewControllers = [rootVC]
