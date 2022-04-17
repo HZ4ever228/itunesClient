@@ -1,25 +1,25 @@
 //
-//  ViewController.swift
+//  SearchSongViewController.swift
 //  iOSArchitecturesDemo
 //
-//  Created by ekireev on 14.02.2018.
-//  Copyright © 2018 ekireev. All rights reserved.
+//  Created by Anton Hodyna on 16/04/2022.
+//  Copyright © 2022 ekireev. All rights reserved.
 //
 
 import UIKit
 
-final class SearchViewController: UIViewController {
+final class SearchSongViewController: UIViewController {
     
     // MARK: - Private Properties
     
-    private let presenter: SearchViewOutput
+    private let presenter: SearchSongViewOutput
     
     private var searchView: SearchView {
         return self.view as! SearchView
     }
     
     private let searchService = ITunesSearchService()
-    var searchResults = [ITunesApp]() {
+    var searchResults = [ITunesSong]() {
         didSet {
             searchView.tableView.isHidden = false
             searchView.tableView.reloadData()
@@ -27,13 +27,9 @@ final class SearchViewController: UIViewController {
         }
     }
     
-    private struct Constants {
-        static let reuseIdentifier = "reuseId"
-    }
-    
     // MARK: - Construction
     
-    init(presenter: SearchViewOutput) {
+    init(presenter: SearchSongViewOutput) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -52,9 +48,9 @@ final class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        addSongButton()
+        addAppButton()
         self.searchView.searchBar.delegate = self
-        self.searchView.tableView.register(AppCell.self, forCellReuseIdentifier: Constants.reuseIdentifier)
+        self.searchView.tableView.register(SongCell.self, forCellReuseIdentifier: SongCell.reuseIdentifier)
         self.searchView.tableView.delegate = self
         self.searchView.tableView.dataSource = self
     }
@@ -66,59 +62,55 @@ final class SearchViewController: UIViewController {
     
     //MARK: - Private functions
     
-    private func addSongButton() {
-        let songButton = UIButton(frame: CGRect(x: 0, y: 0, width: 21, height: 21))
-        songButton.addTarget(self, action: #selector(songButtunActionTap), for: UIControl.Event.touchUpInside)
+    private func addAppButton() {
+        let appButton = UIButton(frame: CGRect(x: 0, y: 0, width: 21, height: 21))
+        appButton.addTarget(self, action: #selector(appButtunActionTap), for: UIControl.Event.touchUpInside)
         if #available(iOS 13.0, *) {
-            songButton.setImage(UIImage(systemName: "music.note.list"), for: .normal)
+            appButton.setImage(UIImage(systemName: "plus.app"), for: .normal)
         }
-        let songButtonItem = UIBarButtonItem(customView: songButton)
-        navigationItem.setRightBarButtonItems([songButtonItem], animated: true)
+        let appButtonItem = UIBarButtonItem(customView: appButton)
+        navigationItem.setRightBarButtonItems([appButtonItem], animated: true)
     }
     
     //MARK: - @objc private functions
     
-    @objc private func songButtunActionTap() {
-        let roorVC = SearchSongModuleBuilder.build()
-        roorVC.navigationItem.title = "Search Songs"
+    @objc private func appButtunActionTap() {
+        let roorVC = SearchModuleBuilder.build()
+        roorVC.navigationItem.title = "Search Apps"
         
         navigationController?.viewControllers = [roorVC]
     }
 }
 
 //MARK: - UITableViewDataSource
-extension SearchViewController: UITableViewDataSource {
+extension SearchSongViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let dequeuedCell = tableView.dequeueReusableCell(withIdentifier: Constants.reuseIdentifier, for: indexPath)
-        guard let cell = dequeuedCell as? AppCell else {
+        let dequeuedCell = tableView.dequeueReusableCell(withIdentifier: SongCell.reuseIdentifier, for: indexPath)
+        guard let cell = dequeuedCell as? SongCell else {
             return dequeuedCell
         }
-        let app = self.searchResults[indexPath.row]
-        let cellModel = AppCellModelFactory.cellModel(from: app)
+        let song = self.searchResults[indexPath.row]
+        let cellModel = SongCellModelFactory.cellModel(from: song)
         cell.configure(with: cellModel)
         return cell
     }
 }
 
 //MARK: - UITableViewDelegate
-extension SearchViewController: UITableViewDelegate {
+extension SearchSongViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let app = searchResults[indexPath.row]
-        let appDetaillViewController = AppDetailViewController(app: app)
-        //appDetaillViewController.app = app
-        navigationController?.pushViewController(appDetaillViewController, animated: true)
+        //song is choosen
     }
 }
 
 //MARK: - UISearchBarDelegate
-extension SearchViewController: UISearchBarDelegate {
+extension SearchSongViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let query = searchBar.text else {
@@ -134,7 +126,7 @@ extension SearchViewController: UISearchBarDelegate {
     }
 }
 
-extension SearchViewController: SearchViewInput {
+extension SearchSongViewController: SearchSongViewInput {
     func throbber(show: Bool) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = show
     }
@@ -157,3 +149,4 @@ extension SearchViewController: SearchViewInput {
         self.searchView.emptyResultView.isHidden = true
     }
 }
+
